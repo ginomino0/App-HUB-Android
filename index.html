@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fai Da Te Per Tutti</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600&display=swap');
+
+:root {
+  /* Palette ispirata al template "Handyman Services": bianco, navy scuro, giallo acceso */
+  --navy: #1c1f26;
+  --navy-light: #2a2e38;
+  --accent: #ffc934;
+  --accent-dark: #e6b429;
+  --success: #2f9e6b;
+  --warning: #e07a1f;
+  --danger: #d9534f;
+  --light: #f1f1ef;
+  --bg: #f7f7f5;
+  --card-bg: #ffffff;
+  --card-border: #e7e6e2;
+  --text: #1c1f26;
+  --text-muted: #6b6b6b;
+
+  /* alias per compatibilità con guide.css/print.css esistenti */
+  --primary: var(--navy);
+  --secondary: var(--accent);
+  --secondary-dark: var(--accent-dark);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body { height: 100%; }
+
+body {
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  color: var(--text);
+  line-height: 1.6;
+
+  background-color: var(--bg);
+  background-image: url('https://images.unsplash.com/photo-1583591900414-7031eb309cb6?q=80&w=1635&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+h1, h2, h3, h4 { font-family: 'Poppins', 'Inter', sans-serif; letter-spacing: 0; }
+
+.hidden { display: none !important; }
+
+.main-header {
+  background: var(--navy);
+  color: #fff;
+  padding: 1.1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo { display: flex; align-items: center; gap: 0.6rem; }
+.logo-icon { font-size: 1.6rem; }
+.logo-text { display: flex; flex-direction: column; }
+.logo-text h1 { font-size: 1.2rem; font-weight: 700; color: #fff; line-height: 1.2; }
+.logo-tagline { font-size: 0.72rem; color: rgba(255,255,255,0.6); }
+.header-actions { display: flex; gap: 0.6rem; }
+.header-actions button {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.3);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.9rem;
+  transition: all 0.15s ease;
+}
+.header-actions button:hover { background: var(--accent); border-color: var(--accent); color: var(--navy); font-weight: 600; }
+
+.help-round-btn {
+  width: 38px; height: 38px;
+  border-radius: 50% !important;
+  padding: 0 !important;
+  background: #ec1c24 !important;
+  border-color: #ec1c24 !important;
+  color: #fff !important;
+  font-weight: 700;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.help-round-btn:hover { background: #c8151c !important; border-color: #c8151c !important; color: #fff !important; }
+
+.hero {
+  text-align: center;
+  padding: 3.5rem 1.5rem 3rem;
+  background: linear-gradient(180deg, rgba(255,255,255,0.88) 0%, rgba(247,247,245,0.92) 100%);
+  border-bottom: 1px solid var(--card-border);
+}
+.hero h2 { font-size: 2.1rem; font-weight: 700; margin-bottom: 0.4rem; color: var(--navy); }
+.hero p { color: var(--text-muted); }
+#search-container {
+  max-width: 800px;
+  margin: 1.8rem auto 0;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  padding: 1.6rem;
+  box-shadow: 0 8px 24px rgba(28,31,38,0.06);
+}
+#queryInput {
+  width: 100%;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--card-border);
+  background: var(--bg);
+  color: var(--text);
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 0.98rem;
+  resize: vertical;
+  min-height: 90px;
+}
+#queryInput:focus { outline: none; border-color: var(--accent); }
+#searchBtn {
+  margin-top: 1rem;
+  padding: 0.85rem 2rem;
+  background: var(--accent);
+  color: var(--navy);
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+#searchBtn:hover { background: var(--accent-dark); transform: translateY(-1px); }
+
+.link-btn {
+  display: block;
+  background: none;
+  border: none;
+  color: var(--navy);
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 0.85rem;
+  margin: 0.8rem auto 0.8rem;
+  padding: 0;
+  font-family: inherit;
+  text-align: center;
+}
+.details-box {
+  background: var(--bg);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  padding: 1.1rem;
+  margin-top: 0.8rem;
+  text-align: left;
+}
+.details-field { margin-bottom: 0.7rem; }
+.details-field label { display: block; font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.35rem; }
+.details-field input {
+  width: 100%;
+  padding: 0.65rem 0.8rem;
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  font-family: inherit;
+  background: #fff;
+  color: var(--text);
+}
+.details-field input:focus { outline: none; border-color: var(--accent); }
+.details-note { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.4rem; }
+
+.photo-attach-label {
+  display: block;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--navy);
+  cursor: pointer;
+  margin-bottom: 0.6rem;
+  padding: 0.5rem;
+  border: 1px dashed var(--card-border);
+  border-radius: 8px;
+  background: var(--bg);
+}
+.photo-attach-label:hover { border-color: var(--accent-dark); }
+.photo-attach-input { display: none; }
+.photo-preview-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.6rem;
+}
+.photo-preview-item {
+  position: relative;
+  width: 64px; height: 64px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--card-border);
+}
+.photo-preview-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.photo-preview-remove {
+  position: absolute;
+  top: 2px; right: 2px;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 18px; height: 18px;
+  font-size: 0.7rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.categories-section { max-width: 1300px; margin: 2.5rem auto; padding: 0 1.5rem; }
+.categories-section h3 {
+  display: block;
+  width: fit-content;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--navy);
+  text-align: center;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  padding: 0.6rem 1.4rem;
+  border-radius: 999px;
+  box-shadow: 0 4px 16px rgba(28,31,38,0.06);
+  margin: 0 auto 1rem;
+}
+
+.categories-tabs-row {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.9rem;
+  background: linear-gradient(180deg, #3f424b 0%, #34373e 100%);
+  border-radius: 14px;
+  overflow-x: auto;
+}
+.category-tab {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255,255,255,0.06);
+  border: none;
+  border-bottom: 3px solid transparent;
+  border-radius: 8px;
+  padding: 0.6rem 0.8rem;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 0.85rem;
+  text-align: left;
+  white-space: nowrap;
+  flex-shrink: 1;
+  transition: all 0.15s ease;
+}
+.category-tab:hover { background: #111214; color: #fff; }
+.category-tab.active {
+  background: #111214;
+  border-bottom-color: var(--accent);
+  color: #fff;
+  font-weight: 600;
+}
+.category-tab-icon {
+  width: 26px; height: 26px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  border: 2px solid var(--accent);
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.jobs-panel {
+  margin-top: 1rem;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  box-shadow: 0 4px 16px rgba(28,31,38,0.05);
+  padding: 1.3rem 1.5rem;
+}
+.jobs-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.6rem;
+}
+.jobs-panel-header h4 { font-size: 1rem; font-weight: 600; color: var(--navy); }
+.jobs-panel-close {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0.2rem 0.5rem;
+}
+.jobs-panel-close:hover { color: var(--text); }
+.jobs-ul {
+  list-style: none;
+  max-height: 420px;
+  overflow-y: auto;
+  border-top: 1px solid var(--card-border);
+}
+.jobs-ul li { border-bottom: 1px solid var(--card-border); }
+.job-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 0.75rem 0.5rem;
+  cursor: pointer;
+  font-size: 0.95rem;
+  color: var(--text);
+  font-family: inherit;
+  position: relative;
+  padding-left: 1.4rem;
+  transition: background 0.12s ease;
+}
+.job-item::before { content: "→"; position: absolute; left: 0.2rem; color: var(--accent-dark); }
+.job-item:hover { background: var(--light); }
+.job-item.active { background: var(--light); font-weight: 600; color: var(--navy); }
+
+#results-container { max-width: 1300px; margin: 2rem auto; padding: 0 1.5rem; }
+#loading { margin-top: 1.2rem; text-align: center; }
+.loader {
+  border: 3px solid var(--light);
+  border-top: 3px solid var(--accent);
+  border-radius: 50%;
+  width: 36px; height: 36px;
+  animation: spin 0.9s linear infinite;
+  margin: 0 auto 0.6rem;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.main-footer {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(28,31,38,0.6);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 1000;
+}
+.modal-box {
+  background: var(--card-bg);
+  color: var(--text);
+  border: 1px solid var(--card-border);
+  padding: 1.6rem;
+  border-radius: 14px;
+  width: 90%; max-width: 420px;
+}
+.modal-box h3 { font-weight: 700; margin-bottom: 0.4rem; color: var(--navy); }
+
+.help-modal-box {
+  max-width: 640px;
+  max-height: 85vh;
+  overflow-y: auto;
+  position: relative;
+  text-align: left;
+}
+.modal-close-x {
+  position: absolute;
+  top: 1rem; right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  color: var(--text-muted);
+  padding: 0.3rem;
+}
+.modal-close-x:hover { color: var(--text); }
+.help-intro { color: var(--text-muted); margin-bottom: 1rem; }
+.help-content h4 { color: var(--navy); font-size: 1rem; margin-top: 1.3rem; margin-bottom: 0.5rem; }
+.help-content p { margin-bottom: 0.6rem; }
+.help-steps { margin-left: 1.2rem; margin-bottom: 0.6rem; }
+.help-steps li { margin-bottom: 0.6rem; }
+.help-substeps { margin-left: 1.2rem; margin-top: 0.5rem; }
+.help-substeps li { margin-bottom: 0.4rem; font-size: 0.93rem; color: var(--text-muted); }
+.help-link {
+  display: inline-block;
+  margin-top: 0.3rem;
+  color: #fff;
+  background: var(--accent-dark);
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+}
+.help-link:hover { background: var(--navy); }
+.help-closing {
+  margin-top: 1.2rem;
+  padding: 1rem;
+  background: var(--light);
+  border-radius: 10px;
+  font-weight: 500;
+}
+
+.history-modal-box {
+  max-width: 640px;
+  max-height: 85vh;
+  overflow-y: auto;
+  position: relative;
+  text-align: left;
+}
+.history-bulk-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--card-border);
+  margin-bottom: 0.6rem;
+  font-size: 0.88rem;
+}
+.history-select-all { display: flex; align-items: center; gap: 0.4rem; color: var(--text-muted); cursor: pointer; }
+.history-delete-selected-btn {
+  background: none;
+  border: 1px solid var(--danger);
+  color: var(--danger);
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-family: inherit;
+}
+.history-delete-selected-btn:hover { background: var(--danger); color: #fff; }
+
+.history-list { display: flex; flex-direction: column; gap: 0.5rem; }
+.history-item {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.7rem;
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+}
+.history-item-checkbox { flex-shrink: 0; width: 16px; height: 16px; }
+.history-item-info { flex: 1; min-width: 0; }
+.history-item-title { font-weight: 600; color: var(--navy); font-size: 0.92rem; overflow-wrap: break-word; }
+.history-item-date { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.2rem; }
+.history-item-actions { display: flex; gap: 0.4rem; flex-shrink: 0; }
+.history-open-btn {
+  background: var(--accent);
+  color: var(--navy);
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.82rem;
+  font-family: inherit;
+}
+.history-open-btn:hover { background: var(--accent-dark); }
+.history-delete-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  padding: 0.3rem;
+}
+.history-delete-btn:hover { opacity: 0.7; }
+
+.api-disclaimer {
+  max-width: 800px;
+  margin: 1rem auto 0;
+  padding: 0.9rem 1.2rem;
+  background: #fff3cd;
+  color: #5c4813;
+  border: 1px solid #f4d778;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  text-align: center;
+}
+.disclaimer-link {
+  background: none;
+  border: none;
+  color: #5c4813;
+  text-decoration: underline;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+  padding: 0;
+}
+.modal-note { font-size: 0.85rem; color: var(--text-muted); margin: 0.5rem 0 1rem; }
+#apiKeyInput {
+  width: 100%; padding: 0.7rem 0.85rem; border: 1px solid var(--card-border); border-radius: 8px;
+  background: var(--bg); color: var(--text); font-family: inherit;
+}
+#apiKeyInput:focus { outline: none; border-color: var(--accent); }
+.modal-actions { display: flex; gap: 0.5rem; margin-top: 1.1rem; }
+.modal-actions button {
+  flex: 1; padding: 0.65rem; border: none; border-radius: 8px; cursor: pointer; font-family: inherit; font-weight: 700;
+  background: var(--accent); color: var(--navy);
+}
+.modal-actions button.secondary { background: var(--light); color: var(--text); font-weight: 500; }
+.modal-status { margin-top: 0.9rem; font-size: 0.85rem; color: var(--text-muted); }
+
+@media (max-width: 700px) {
+  .category-tab { flex-direction: column; gap: 0.3rem; padding: 0.6rem 0.8rem; font-size: 0.8rem; }
+  .categories-tabs-row { gap: 0.5rem; }
+}
+
+.guide-card {
+  background: var(--card-bg);
+  color: var(--text);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(28,31,38,0.06);
+  overflow-wrap: break-word;
+  word-break: break-word;
+  scroll-margin-top: 24px;
+}
+.guide-card h3 {
+  margin-top: 1.5rem;
+  margin-bottom: 0.7rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--navy);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.guide-card ul, .guide-card ol { margin-left: 0; margin-top: 0.4rem; list-style: none; }
+
+.guide-header { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.guide-header h2 { font-size: 1.6rem; font-weight: 700; color: var(--navy); }
+.guide-meta { color: var(--text-muted); font-size: 0.9rem; margin-top: 0.4rem; }
+.muted { color: var(--text-muted); font-size: 0.85rem; }
+
+.guide-difficulty { padding: 0.35rem 0.9rem; border-radius: 20px; font-size: 0.78rem; font-weight: 700; color: #fff; white-space: nowrap; }
+.difficolta-facile { background: var(--success); }
+.difficolta-media { background: var(--warning); }
+.difficolta-difficile { background: var(--danger); }
+
+.guide-columns {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 2rem;
+  margin-top: 1.5rem;
+  align-items: start;
+}
+.guide-col-left, .guide-col-right { display: flex; flex-direction: column; }
+.guide-col-left h3:first-child { margin-top: 0; }
+.guide-col-right h3 { margin-top: 0; }
+
+.guide-col-left-scroll {
+  max-height: 860px;
+  overflow-y: auto;
+  padding-right: 0.4rem;
+}
+
+@media (max-width: 800px) {
+  .guide-columns { grid-template-columns: 1fr; }
+  .guide-col-left-scroll { max-height: none; overflow: visible; }
+}
+
+.guide-warnings-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-top: 1.5rem;
+}
+.warnings-col, .tips-col { min-width: 0; }
+@media (max-width: 800px) {
+  .guide-warnings-row { grid-template-columns: 1fr; }
+}
+
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 0.7rem;
+  margin-top: 0.6rem;
+}
+.tool-item {
+  background: var(--bg);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  padding: 0.7rem 0.7rem 0.6rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 78px;
+  gap: 0.3rem;
+  align-items: center;
+  font-size: 0.85rem;
+}
+
+.materials-list li { padding: 0.65rem 0; border-bottom: 1px solid var(--card-border); }
+.material-row { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
+.material-price { color: var(--success); font-weight: 700; white-space: nowrap; }
+.price-note { color: var(--text-muted); font-weight: 400; font-size: 0.72rem; }
+
+.steps-scroll {
+  flex: 1;
+  max-height: 860px;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+  margin-top: 0.6rem;
+}
+.step {
+  position: relative;
+  background: var(--bg);
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  padding: 1.1rem 1.2rem 1.1rem 3.6rem;
+  margin-bottom: 1rem;
+}
+.step::before {
+  content: counter(step-counter);
+  counter-increment: step-counter;
+  position: absolute;
+  left: 1rem;
+  top: 1.1rem;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--navy);
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 0.9rem;
+  display: flex; align-items: center; justify-content: center;
+  border: 2px solid var(--accent);
+}
+.steps-scroll { counter-reset: step-counter; }
+.step-number { font-weight: 700; color: var(--navy); display: block; margin-bottom: 0.3rem; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.02em; }
+.step-description { color: var(--text); }
+
+.image-search-link {
+  display: inline-block;
+  margin-top: 0.6rem;
+  font-size: 0.82rem;
+  color: var(--navy);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--navy);
+}
+.image-search-link:hover { color: var(--accent-dark); border-color: var(--accent-dark); }
+
+.tool-item i { color: var(--navy); margin-right: 0.3rem; }
+.tool-item .image-search-link {
+  margin-top: auto;
+  padding-top: 0.3rem;
+}
+
+.warning-box { background: #fff3cd; color: #5c4813; border-left: 4px solid var(--warning); padding: 0.9rem 1.1rem; border-radius: 10px; margin-top: 0.5rem; }
+.danger-box { background: #f8d7da; color: #58151c; border-left: 4px solid var(--danger); padding: 0.9rem 1.1rem; border-radius: 10px; margin-top: 0.8rem; }
+
+.tips-list li {
+  padding: 0.4rem 0 0.4rem 1.5rem;
+  position: relative;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  white-space: normal;
+  hyphens: auto;
+}
+.tips-list li::before { content: "💡"; position: absolute; left: 0; }
+
+.savings-card {
+  margin-top: 0.6rem;
+  padding: 1.5rem;
+  border-radius: 14px;
+  background: var(--navy);
+  color: #fff;
+}
+.savings-detail { display: flex; gap: 2.5rem; margin-bottom: 0.9rem; }
+.savings-label { color: rgba(255,255,255,0.65); font-weight: 500; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.02em; background: none; padding: 0; }
+.savings-detail > div { font-size: 1.4rem; font-weight: 700; color: #fff; }
+.savings-amount { font-size: 1.7rem; font-weight: 700; color: var(--accent); margin-top: 0.3rem; }
+.error-card { border-left: 4px solid var(--danger); }
+
+.photo-warning-notice {
+  background: #eef2f7;
+  color: var(--text-muted);
+  border-left: 4px solid var(--text-muted);
+  padding: 0.6rem 0.9rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  margin-top: 0.8rem;
+}
+
+.followup-box { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 0.5rem; }
+.followup-box textarea {
+  padding: 0.8rem; border: 1px solid var(--card-border); border-radius: 10px; font-family: inherit; resize: vertical;
+  background: var(--bg); color: var(--text);
+}
+.followup-box textarea:focus { outline: none; border-color: var(--accent); }
+.followup-box button {
+  align-self: center;
+  padding: 0.65rem 1.3rem;
+  background: var(--accent);
+  color: var(--navy);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+  font-family: inherit;
+}
+.followup-box button:disabled { opacity: 0.6; cursor: default; }
+
+.approfondimento-box {
+  background: var(--bg);
+  color: var(--text);
+  border-left: 4px solid var(--navy);
+  padding: 0.9rem 1.1rem;
+  border-radius: 10px;
+  margin-top: 0.9rem;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+.approfondimento-domanda { font-weight: 700; margin-bottom: 0.4rem; }
+.approfondimento-risposta { white-space: pre-line; overflow-wrap: break-word; word-break: break-word; }
+
+.error-text { color: var(--danger); font-size: 0.9rem; }
+
+.step-actions { margin-top: 0.7rem; }
+.step-detail-btn {
+  background: none;
+  border: 1px solid var(--navy);
+  color: var(--navy);
+  padding: 0.45rem 0.9rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  font-family: inherit;
+}
+.step-detail-btn:hover { background: var(--navy); color: #fff; }
+.step-detail-btn:disabled { opacity: 0.6; cursor: default; }
+.step-detail-box:empty { margin: 0; }
+.step-detail-group-toggle {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: var(--bg);
+  border: 1px solid var(--card-border);
+  color: var(--navy);
+  padding: 0.6rem 0.9rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.88rem;
+  font-family: inherit;
+  margin-top: 0.6rem;
+}
+.step-detail-group-toggle:hover { border-color: var(--accent-dark); }
+.step-detail-group-content { margin-top: 0.4rem; }
+.step-detail-item { margin-top: 0.5rem; }
+.step-detail-item-toggle {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 1px dashed var(--card-border);
+  color: var(--navy);
+  padding: 0.4rem 0.7rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-family: inherit;
+}
+.step-detail-item-toggle:hover { border-color: var(--accent-dark); }
+.toggle-arrow { float: right; }
+.step-detail-item-content {
+  margin-top: 0.4rem;
+  padding: 0.7rem 0.9rem;
+  background: var(--bg);
+  color: var(--text);
+  border: 1px dashed var(--accent-dark);
+  border-radius: 10px;
+  white-space: pre-line;
+  font-size: 0.92rem;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+.step-detail-content {
+  margin-top: 0.7rem;
+  padding: 0.8rem 1rem;
+  background: #fff;
+  color: var(--text);
+  border: 1px dashed var(--accent-dark);
+  border-radius: 10px;
+  white-space: pre-line;
+  font-size: 0.92rem;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.step-mini-question {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.8rem;
+}
+.step-mini-question input {
+  flex: 1;
+  padding: 0.55rem 0.8rem;
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.85rem;
+}
+.step-mini-question input:focus { outline: none; border-color: var(--accent); }
+.step-mini-question button {
+  padding: 0.55rem 1rem;
+  background: var(--success);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 700;
+  font-family: inherit;
+}
+.step-mini-question button:disabled { opacity: 0.6; cursor: default; }
+.step-qa-box:empty { margin: 0; }
+.step-qa-item {
+  margin-top: 0.7rem;
+  padding: 0.8rem 1rem;
+  background: #fff;
+  color: var(--text);
+  border-left: 3px solid var(--success);
+  border-radius: 8px;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+.step-qa-domanda { font-weight: 700; margin-bottom: 0.3rem; font-size: 0.9rem; }
+.step-qa-risposta { font-size: 0.9rem; white-space: pre-line; overflow-wrap: break-word; word-break: break-word; }
+
+.print-only { display: none; }
+
+.guide-actions-row {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.8rem;
+  flex-wrap: wrap;
+}
+
+.export-pdf-btn {
+  padding: 0.75rem 1.5rem;
+  background: #ec1c24;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 700;
+  font-family: inherit;
+  font-size: 0.95rem;
+}
+.export-pdf-btn:hover { background: #c8151c; }
+
+.save-history-btn {
+  padding: 0.75rem 1.5rem;
+  background: var(--navy);
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 700;
+  font-family: inherit;
+  font-size: 0.95rem;
+}
+.save-history-btn:hover { background: #2a2e38; }
+
+@media print {
+  body * { visibility: hidden; }
+  #guidaEsportabile, #guidaEsportabile * { visibility: visible; }
+  #guidaEsportabile {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    background: white !important;
+    color: #1c1f26 !important;
+    box-shadow: none;
+  }
+  .guide-columns { grid-template-columns: 1fr !important; }
+  .steps-scroll, .guide-col-left-scroll { max-height: none !important; overflow: visible !important; }
+  .no-print { display: none !important; }
+  .print-only { display: block !important; }
+  .step-detail-content, .step-qa-item { border: none !important; background: none !important; padding: 0.3rem 0 !important; }
+  .savings-card { background: #f0f0f0 !important; color: #1c1f26 !important; }
+  .savings-detail > div, .savings-amount { color: #1c1f26 !important; }
+  .savings-label { background: none !important; color: #555 !important; }
+}
+
+/* ===================== MOBILE / TOUCH (Android) ===================== */
+@media (max-width: 640px) {
+  .main-header { padding: 0.7rem 1rem; flex-wrap: wrap; row-gap: 0.5rem; }
+  .logo-icon { font-size: 1.3rem; }
+  .logo-text h1 { font-size: 0.98rem; }
+  .logo-tagline { font-size: 0.65rem; }
+  .header-actions { gap: 0.4rem; flex-wrap: wrap; }
+  .header-actions button { padding: 0.5rem 0.6rem; font-size: 0.78rem; min-height: 40px; }
+  .help-round-btn { width: 40px; height: 40px; }
+
+  .hero { padding: 1.8rem 1rem 1.6rem; }
+  .hero h2 { font-size: 1.35rem; }
+  .hero p { font-size: 0.9rem; }
+  #search-container { padding: 1rem; border-radius: 12px; margin-top: 1.3rem; }
+  #queryInput { font-size: 1rem; min-height: 80px; }
+  #searchBtn { width: 100%; padding: 0.9rem; font-size: 1.02rem; min-height: 48px; }
+  .link-btn { font-size: 0.82rem; padding: 0.4rem; }
+  .photo-attach-label { padding: 0.7rem; font-size: 0.82rem; }
+
+  .categories-section { padding: 0 1rem; margin: 1.6rem auto; }
+  .categories-section h3 { font-size: 0.95rem; padding: 0.55rem 1rem; }
+  .categories-tabs-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    overflow-x: visible;
+    gap: 0.5rem;
+    padding: 0.7rem;
+  }
+  .category-tab { flex-direction: column; padding: 0.7rem 0.4rem; font-size: 0.72rem; min-height: 64px; justify-content: center; }
+  .category-tab-icon { width: 30px; height: 30px; font-size: 1rem; }
+  .category-tab-label { text-align: center; line-height: 1.2; }
+
+  .jobs-panel { padding: 1rem; }
+  .jobs-panel-header h4 { font-size: 0.92rem; }
+  .job-item { padding: 0.9rem 0.5rem; font-size: 1rem; min-height: 44px; }
+  .jobs-panel-close { font-size: 1.2rem; padding: 0.4rem 0.6rem; }
+
+  #results-container { padding: 0 1rem; }
+
+  .guide-card { padding: 1.1rem; border-radius: 12px; }
+  .guide-header { flex-direction: column; align-items: flex-start; gap: 0.6rem; }
+  .guide-header h2 { font-size: 1.2rem; }
+  .guide-difficulty { font-size: 0.72rem; padding: 0.3rem 0.8rem; }
+  .guide-meta { font-size: 0.82rem; }
+
+  .guide-columns { grid-template-columns: 1fr; gap: 1.3rem; margin-top: 1.1rem; }
+  .guide-col-left-scroll, .steps-scroll { max-height: none; overflow: visible; padding-right: 0; }
+
+  .guide-warnings-row { grid-template-columns: 1fr; gap: 1.2rem; }
+
+  .tools-grid { grid-template-columns: repeat(2, 1fr); gap: 0.6rem; }
+  .tool-item { min-height: 70px; font-size: 0.82rem; }
+
+  .materials-list li { padding: 0.8rem 0; }
+  .material-row { flex-direction: column; align-items: flex-start; gap: 0.2rem; }
+
+  .step { padding: 1rem 1rem 1rem 3rem; border-radius: 12px; }
+  .step::before { left: 0.7rem; top: 1rem; width: 28px; height: 28px; font-size: 0.82rem; }
+  .step-number { font-size: 0.78rem; }
+  .step-description { font-size: 0.95rem; }
+
+  .step-detail-btn, .step-question-btn, .followup-box button { min-height: 44px; }
+  .step-mini-question { flex-direction: column; }
+  .step-mini-question input { min-height: 44px; font-size: 1rem; }
+  .step-mini-question button { width: 100%; }
+
+  .savings-card { padding: 1.2rem; }
+  .savings-detail { flex-direction: column; gap: 0.9rem; }
+  .savings-amount { font-size: 1.4rem; }
+
+  .guide-actions-row { flex-direction: column; gap: 0.7rem; }
+  .guide-actions-row button { width: 100%; min-height: 48px; }
+
+  .followup-box textarea { font-size: 1rem; }
+
+  .modal-box { width: 92%; padding: 1.2rem; }
+  .help-modal-box, .history-modal-box { max-height: 88vh; }
+
+  .history-item { flex-wrap: wrap; }
+  .history-item-actions { width: 100%; justify-content: flex-end; }
+  .history-open-btn, .history-delete-btn { min-height: 40px; }
+
+  .modal-actions button { min-height: 44px; }
+}
+
+@media (max-width: 380px) {
+  .categories-tabs-row { grid-template-columns: repeat(2, 1fr); }
+  .tools-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1c1f26">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+</head>
+<body>
+<div id="app">
+<header class="main-header">
+  <div class="logo">
+    <span class="logo-icon">🛠️</span>
+    <div class="logo-text">
+      <h1>Fai Da Te Per Tutti</h1>
+      <span class="logo-tagline">Semplice, autonomo, conveniente.</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <button id="apiKeyBtn" title="Imposta la tua API Key">🔑 API Key</button>
+    <button id="historyBtn" title="Le tue guide salvate">🕒 Cronologia</button>
+    <button id="helpBtn" class="help-round-btn" title="Guida all'uso del programma">?</button>
+  </div>
+</header>
+
+<section class="hero">
+  <h2>Descrivi il lavoretto che devi fare</h2>
+  <p>Scegli un lavoro dalla lista qui sotto, oppure descrivilo con parole tue.</p>
+  <div id="search-container">
+    <textarea id="queryInput" rows="3"
+      placeholder="Es: come riparare un rubinetto che perde"></textarea>
+
+    <button id="toggleDetailsBtn" class="link-btn" type="button">+ Aggiungi dettagli (materiale o elettrodomestico che hai già)</button>
+
+    <label for="fotoInput" class="photo-attach-label">
+      📷 Allega una o più foto (facoltativo) — es: la parete, il mobile o l'oggetto su cui devi lavorare
+    </label>
+    <input type="file" id="fotoInput" accept="image/*" multiple class="photo-attach-input">
+    <div id="fotoPreviewList" class="photo-preview-list"></div>
+
+    <div id="detailsBox" class="details-box hidden">
+      <div class="details-field">
+        <label>Materiale che hai già (marca/modello)</label>
+        <input type="text" id="materialeInput" placeholder="Es: spina Bticino Living, cavo 3x1.5mm">
+      </div>
+      <div class="details-field">
+        <label>Elettrodomestico o oggetto da collegare/installare (marca/modello)</label>
+        <input type="text" id="elettrodomesticoInput" placeholder="Es: lavatrice Samsung WW70, forno Whirlpool">
+      </div>
+      <p class="details-note">Campi facoltativi: se li compili, la guida sarà più precisa e specifica per quello che hai.</p>
+      <p class="details-note">Puoi indicare più elementi separandoli con la virgola, es: "presa Bticino Living, interruttore Vimar Plana" — il programma li riconoscerà come materiali/elettrodomestici distinti.</p>
+    </div>
+
+    <button id="searchBtn">🔍 Crea Guida</button>
+
+    <div id="loading" class="hidden">
+      <div class="loader"></div>
+      <p>Sto generando la tua guida, un attimo...</p>
+    </div>
+  </div>
+
+  <p id="apiKeyDisclaimer" class="api-disclaimer hidden">
+    ⚠️ Per funzionare, il programma ha bisogno di una chiave API gratuita di Gemini.
+    <button id="disclaimerHelpLink" class="disclaimer-link" type="button">Non sai come crearla? Leggi la guida</button>
+    oppure clicca su "🔑 API Key" in alto per inserirla se ce l'hai già.
+  </p>
+</section>
+
+<section class="categories-section">
+  <h3>Sfoglia per categoria o lasciati ispirare da nuove idee da provare</h3>
+
+  <div id="categoriesTabs" class="categories-tabs-row">
+  </div>
+
+  <div id="jobsListContainer" class="jobs-panel hidden">
+    <div class="jobs-panel-header">
+      <h4 id="jobsListTitle">Lavori disponibili</h4>
+      <button id="jobsPanelClose" class="jobs-panel-close" title="Chiudi">✕</button>
+    </div>
+    <div id="jobsList" class="jobs-list"></div>
+  </div>
+</section>
+
+<section id="results-container">
+  <div id="guide-result" class="hidden"></div>
+</section>
+
+<footer class="main-footer">
+  <p>Fai da Te - Risparmio · progetto personale, nessun dato inviato a server terzi oltre all'API scelta.</p>
+</footer>
+
+<div id="apiModalOverlay" class="modal-overlay hidden">
+  <div class="modal-box">
+    <h3>🔑 La tua API Key</h3>
+    <p class="modal-note">
+      Viene salvata solo nel tuo browser (localStorage), non viene mai inviata
+      a nessun server nostro. Serve solo per chiamare direttamente l'API da qui.
+    </p>
+    <input type="password" id="apiKeyInput" placeholder="Incolla qui la tua API key">
+    <div class="modal-actions">
+      <button id="apiKeySave">Salva</button>
+      <button id="apiKeyClear" class="secondary">Rimuovi</button>
+      <button id="apiKeyClose" class="secondary">Chiudi</button>
+    </div>
+    <p id="apiKeyStatus" class="modal-status"></p>
+  </div>
+</div>
+
+<div id="helpModalOverlay" class="modal-overlay hidden">
+  <div class="modal-box help-modal-box">
+    <button id="helpModalClose" class="modal-close-x" aria-label="Chiudi">✕</button>
+
+    <h3>👋 Benvenuto! Iniziare è più facile di quanto pensi</h3>
+    <p class="help-intro">
+      Non preoccuparti se non hai mai usato niente di simile: questa guida ti accompagna passo passo,
+      con parole semplici. In pochi minuti sarai pronto a usare il programma senza problemi.
+    </p>
+
+    <div class="help-content">
+
+      <h4>1. Perché serve una "chiave API"?</h4>
+      <p>
+        Questo programma usa un'intelligenza artificiale (si chiama <strong>Gemini</strong>, ed è di Google)
+        per scrivere le guide ai tuoi lavori. Per farla funzionare serve una specie di "codice personale"
+        gratuito, chiamato <strong>chiave API</strong>: è come una password che permette al programma
+        di parlare con l'intelligenza artificiale a tuo nome. Si crea gratis in meno di due minuti,
+        e resta salvata solo sul tuo computer/telefono — non la vede nessun altro.
+      </p>
+
+      <h4>2. Come creare la tua chiave gratuita</h4>
+      <ol class="help-steps">
+        <li>Clicca su questo link, si aprirà il sito ufficiale di Google:
+          <br><a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener" class="help-link">
+            👉 aistudio.google.com/apikey
+          </a>
+        </li>
+        <li>Accedi con un tuo account Google (la stessa email di Gmail, se ne hai una). Se non hai un account Google, il sito ti guida a crearne uno gratis.</li>
+        <li>Se è la prima volta che usi questo sito, potrebbe chiederti di accettare i termini di utilizzo: clicca "Accetto" o "Continua".</li>
+        <li>Cerca il bottone <strong>"Create API key"</strong> (o "Crea chiave API") in alto e cliccalo. Se non lo vedi subito, guarda anche in basso a sinistra nel menu: a volte c'è una piccola icona a forma di chiave 🔑 che porta alla stessa pagina.</li>
+        <li>
+          A questo punto Google potrebbe chiederti di scegliere o creare un <strong>"progetto" (project)</strong>.
+          Non spaventarti: non è niente di tecnico, è solo un'etichetta per organizzare le chiavi.
+          <ul class="help-substeps">
+            <li>Se ti propone già un progetto (spesso si chiama "My Project" o simile), va benissimo: selezionalo e vai avanti.</li>
+            <li>Se invece devi crearne uno nuovo, clicca su "Crea nuovo progetto" (o "Create project"), scrivi un nome qualsiasi (es. "Fai da te" o anche solo il tuo nome) e conferma.</li>
+            <li>Non serve inserire una carta di credito né attivare fatturazione: la chiave gratuita funziona comunque.</li>
+          </ul>
+        </li>
+        <li>Clicca infine sul bottone <strong>"Create key"</strong> (o "Crea chiave") per generarla davvero.</li>
+        <li>Comparirà una lunga sequenza di lettere e numeri: quella è la tua chiave. Cliccaci sopra o sull'iconcina di copia accanto per copiarla subito, prima di chiudere la pagina.</li>
+      </ol>
+
+      <h4>3. Come inserirla nel programma</h4>
+      <ol class="help-steps">
+        <li>Torna su questa pagina e clicca sul bottone <strong>"🔑 API Key"</strong> in alto.</li>
+        <li>Incolla la chiave che hai copiato nella casella che si apre.</li>
+        <li>Clicca "Salva". Fatto! Non dovrai più rifarlo, resta salvata per le prossime volte.</li>
+      </ol>
+
+      <h4>4. Come si usa il programma, passo passo</h4>
+      <ol class="help-steps">
+        <li><strong>Scegli un lavoro:</strong> clicca uno dei blocchetti categoria (es. "Idraulica") per aprire l'elenco dei lavori di quel tipo, poi clicca quello che ti interessa. Non sai cosa fare? Sfoglia le categorie anche solo per curiosità: sono piene di idee, anche insolite, da cui prendere spunto. Per chiudere l'elenco, clicca di nuovo sulla categoria aperta oppure sulla crocetta ✕. Oppure, se preferisci, scrivi tu stesso cosa vuoi fare nella barra centrale.</li>
+        <li><strong>Hai già del materiale?</strong> Se vuoi, apri "+ Aggiungi dettagli" e scrivi marca/modello di ciò che hai già: la guida sarà ancora più precisa. Se hai più cose da indicare, separale con una virgola (es. "presa Bticino Living, cavo 3x1.5mm") e il programma le riconoscerà una per una.</li>
+        <li><strong>Hai una foto?</strong> Sopra la barra di ricerca trovi "📷 Allega una o più foto": puoi caricare una o più immagini di ciò su cui devi lavorare (una parete, un mobile, una presa, una pianta...). Scrivi comunque anche una breve descrizione di cosa vuoi fare: più informazioni dai, più la guida sarà precisa e su misura per la tua situazione reale.</li>
+        <li><strong>Clicca "Crea Guida":</strong> in pochi secondi comparirà una guida completa con attrezzi, materiali (con prezzo indicativo e link per vedere immagini del prodotto), passaggi spiegati uno per uno, avvertenze e quanto risparmi.</li>
+        <li><strong>Non capisci un passaggio o un termine?</strong> Ogni passo ha un bottone "Spiegami in dettaglio" e una casella per fare domande specifiche (es. "cos'è una scatola di derivazione?"). Non c'è nessuna domanda sciocca: chiedi tutto quello che ti serve.</li>
+        <li><strong>Hai un imprevisto durante il lavoro?</strong> In fondo alla guida c'è uno spazio apposito: scrivi il problema che hai incontrato (un attrezzo che non hai, un muro particolare, ecc.) e riceverai una soluzione su misura.</li>
+        <li><strong>Vuoi portartela dietro?</strong> Una volta letta la guida, aggiunti gli approfondimenti che ti servivano e adattato tutto a eventuali problemi o imprevisti incontrati, puoi salvare tutto così com'è: il bottone rosso "Esporta guida in PDF" ti permette di salvarla in un file da tenere anche offline mentre lavori, oppure di stamparla su carta.</li>
+      </ol>
+
+      <p class="help-closing">
+        Non c'è nulla di complicato: né nell'usare questo programma, né nei lavoretti che stai per affrontare.
+        Vai con calma, un passo alla volta, e chiedi pure ogni approfondimento di cui hai bisogno. 💪
+      </p>
+    </div>
+  </div>
+</div>
+
+<div id="historyModalOverlay" class="modal-overlay hidden">
+  <div class="modal-box history-modal-box">
+    <button id="historyModalClose" class="modal-close-x" aria-label="Chiudi">✕</button>
+    <h3>🕒 Le tue guide salvate</h3>
+    <p class="help-intro">
+      Qui trovi le guide che hai salvato, con tutti gli approfondimenti già fatti.
+      Se una guida non viene salvata, chiudendola viene persa.
+    </p>
+
+    <div id="historyBulkActions" class="history-bulk-actions hidden">
+      <label class="history-select-all">
+        <input type="checkbox" id="historySelectAll"> Seleziona tutte
+      </label>
+      <button id="historyDeleteSelected" class="history-delete-selected-btn">🗑️ Elimina selezionate</button>
+    </div>
+
+    <div id="historyList" class="history-list"></div>
+    <p id="historyEmptyMsg" class="muted hidden">Non hai ancora salvato nessuna guida.</p>
+  </div>
+</div>
+
+</div>
+<script>
+window.__CATEGORIES__ = {
+  "idraulica": { "label": "Idraulica", "icon": "🚰", "safetyLevel": "media", "prezziMedi": { "default": 90 } },
+  "elettricita": { "label": "Elettricità", "icon": "🔌", "safetyLevel": "alta", "prezziMedi": { "default": 70 } },
+  "falegnameria": { "label": "Falegnameria", "icon": "🪚", "safetyLevel": "bassa", "prezziMedi": { "default": 90 } },
+  "muratura": { "label": "Muratura / Imbiancatura", "icon": "🎨", "safetyLevel": "bassa", "prezziMedi": { "default": 150 } },
+  "mobili": { "label": "Montaggio mobili", "icon": "🛋️", "safetyLevel": "bassa", "prezziMedi": { "default": 80 } },
+  "giardinaggio": { "label": "Giardinaggio", "icon": "🌱", "safetyLevel": "bassa", "prezziMedi": { "default": 60 } },
+  "hobby": { "label": "Hobby / Creativo", "icon": "✂️", "safetyLevel": "bassa", "prezziMedi": { "default": 40 } }
+};
+window.__JOBS__ = window.__JOBS__ || {};
+</script>
+<script src="jobs-data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
