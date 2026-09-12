@@ -1270,12 +1270,64 @@ document.addEventListener('components:ready', initCronologia);
 document.dispatchEvent(new Event('components:ready'));
 
 // ------------------------------------------------------------
-// Registrazione service worker (per funzionamento PWA/offline)
+// Registrazione service worker + rilevamento automatico
+// di nuove versioni dell'app (mostra un banner "aggiornamento
+// disponibile" con bottone OK, solo quando c'è davvero una
+// versione nuova pubblicata su GitHub).
 // ------------------------------------------------------------
+
+function mostraBannerAggiornamento(nuovoWorker) {
+  const banner = document.getElementById('updateBanner');
+  const btn = document.getElementById('updateBannerBtn');
+  if (!banner || !btn) return;
+
+  banner.classList.remove('hidden');
+
+  btn.onclick = () => {
+    // Dice al nuovo service worker in attesa di attivarsi subito.
+    nuovoWorker.postMessage('SKIP_WAITING');
+    banner.classList.add('hidden');
+  };
+}
+
 if ('serviceWorker' in navigator) {
+  let ricaricamentoInCorso = false;
+
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js').catch(err => {
+    navigator.serviceWorker.register('sw.js').then((registrazione) => {
+
+      // Caso 1: c'è già un nuovo worker in attesa (l'utente aveva
+      // l'app aperta quando è arrivato l'aggiornamento).
+      if (registrazione.waiting && navigator.serviceWorker.controller) {
+        mostraBannerAggiornamento(registrazione.waiting);
+      }
+
+      // Caso 2: un nuovo worker viene scaricato ORA (l'utente ha
+      // appena riaperto l'app e c'è una versione più recente).
+      registrazione.addEventListener('updatefound', () => {
+        const nuovoWorker = registrazione.installing;
+        if (!nuovoWorker) return;
+
+        nuovoWorker.addEventListener('statechange', () => {
+          // "installed" + un controller già attivo = questo NON è
+          // la prima installazione, ma un vero aggiornamento.
+          if (nuovoWorker.state === 'installed' && navigator.serviceWorker.controller) {
+            mostraBannerAggiornamento(nuovoWorker);
+          }
+        });
+      });
+
+    }).catch(err => {
       console.log('Service worker non registrato:', err);
     });
+  });
+
+  // Quando il nuovo service worker prende il controllo (dopo aver
+  // ricevuto SKIP_WAITING), ricarica la pagina UNA sola volta per
+  // mostrare subito la versione aggiornata.
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (ricaricamentoInCorso) return;
+    ricaricamentoInCorso = true;
+    window.location.reload();
   });
 }

@@ -912,13 +912,22 @@ h1, h2, h3, h4 { font-family: 'Poppins', 'Inter', sans-serif; letter-spacing: 0;
   .categories-section { padding: 0 1rem; margin: 1.6rem auto; }
   .categories-section h3 { font-size: 0.95rem; padding: 0.55rem 1rem; }
   .categories-tabs-row {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     overflow-x: visible;
     gap: 0.5rem;
     padding: 0.7rem;
   }
-  .category-tab { flex-direction: column; padding: 0.7rem 0.4rem; font-size: 0.72rem; min-height: 64px; justify-content: center; }
+  .category-tab {
+    flex-direction: column;
+    justify-content: center;
+    padding: 0.7rem 0.4rem;
+    font-size: 0.72rem;
+    min-height: 64px;
+    flex: 0 0 calc(33.333% - 0.5rem);
+    box-sizing: border-box;
+  }
   .category-tab-icon { width: 30px; height: 30px; font-size: 1rem; }
   .category-tab-label { text-align: center; line-height: 1.2; }
 
@@ -976,9 +985,39 @@ h1, h2, h3, h4 { font-family: 'Poppins', 'Inter', sans-serif; letter-spacing: 0;
 }
 
 @media (max-width: 380px) {
-  .categories-tabs-row { grid-template-columns: repeat(2, 1fr); }
+  .category-tab { flex: 0 0 calc(50% - 0.5rem); }
   .tools-grid { grid-template-columns: 1fr 1fr; }
 }
+
+/* Banner di aggiornamento disponibile */
+.update-banner {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 2000;
+  background: var(--navy);
+  color: #fff;
+  padding: 0.8rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+  font-size: 0.9rem;
+  text-align: center;
+}
+.update-banner button {
+  background: var(--accent);
+  color: var(--navy);
+  border: none;
+  padding: 0.4rem 1.1rem;
+  border-radius: 6px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  flex-shrink: 0;
+}
+.update-banner button:hover { background: var(--accent-dark); }
 </style>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#1c1f26">
@@ -987,6 +1026,12 @@ h1, h2, h3, h4 { font-family: 'Poppins', 'Inter', sans-serif; letter-spacing: 0;
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 </head>
 <body>
+<div id="updateBanner" class="update-banner hidden">
+  <span>🔄 Novità di questo aggiornamento:<br>
+- Icone categorie sistemate<br>
+- Corretto bug nel salvataggio cronologia</span>
+  <button id="updateBannerBtn">OK, aggiorna</button>
+</div>
 <div id="app">
 <header class="main-header">
   <div class="logo">
